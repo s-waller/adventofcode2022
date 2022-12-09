@@ -27,13 +27,8 @@ def score_increase(janken_play):
         case "Scissors":
             return score_change["scissors"]
  
-
-lose_score = 0
-draw_score = 3
-win_score = 6
 my_score = 0
 opponent_score = 0
-
 
 with open(os.path.join(sys.path[0], "input.txt"), "r") as file_content:
     lines = file_content.readlines()
@@ -45,20 +40,20 @@ with open(os.path.join(sys.path[0], "input.txt"), "r") as file_content:
         my_score += score_increase(my_hand_sign)
         
         if opponent_hand_sign == my_hand_sign:
-            opponent_score += 3
-            my_score += 3
+            opponent_score += score_change["draw"]
+            my_score += score_change["draw"]
         elif opponent_hand_sign == "Rock" and my_hand_sign == "Paper":
-            my_score += 6
+            my_score += score_change["win"]
         elif opponent_hand_sign == "Rock" and my_hand_sign == "Scissors":
-            opponent_score += 6
+            opponent_score += score_change["win"]
         elif opponent_hand_sign == "Paper" and my_hand_sign == "Rock":
-            opponent_score += 6
+            opponent_score += score_change["win"]
         elif opponent_hand_sign == "Paper" and my_hand_sign == "Scissors":
-            my_score += 6
+            my_score += score_change["win"]
         elif opponent_hand_sign == "Scissors" and my_hand_sign == "Paper":
-            opponent_score += 6
+            opponent_score += score_change["win"]
         elif opponent_hand_sign == "Scissors" and my_hand_sign == "Rock":
-            my_score += 6
+            my_score += score_change["win"]
 
 winning_score = max(my_score,opponent_score)
 losing_score = min(my_score,opponent_score)
