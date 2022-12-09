@@ -1,8 +1,13 @@
 import os,sys
 
-rock_score = 1
-paper_score = 2
-scissors_score = 3
+score_change = {
+  "rock": 1,
+  "paper": 2,
+  "scissors": 3,
+  "lose": 0,
+  "draw": 3,
+  "win": 6
+}
 
 def hand_sign(type):
     match type:
@@ -16,11 +21,11 @@ def hand_sign(type):
 def score_increase(janken_play):
     match janken_play:
         case "Rock":
-            return rock_score
+            return score_change["rock"]
         case "Paper":
-            return paper_score
+            return score_change["paper"]
         case "Scissors":
-            return scissors_score
+            return score_change["scissors"]
  
 
 lose_score = 0
