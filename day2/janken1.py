@@ -9,6 +9,9 @@ score_change = {
   "win": 6
 }
 
+my_score = 0
+opponent_score = 0
+
 def hand_sign(type):
     match type:
         case "A" | "X":
@@ -26,9 +29,14 @@ def score_increase(janken_play):
             return score_change["paper"]
         case "Scissors":
             return score_change["scissors"]
- 
-my_score = 0
-opponent_score = 0
+
+def outcome(my_total,opponent_total):
+    if my_total == max(my_total,opponent_total):
+        return "I win with " + str(my_total) + " points. The opponent scored " + str(opponent_total) + " points."
+    elif opponent_total == max(my_total,opponent_total): 
+        return "The elf wins with " + str(opponent_total) + " points. I scored " + str(my_total) + " points."
+    elif my_total == opponent_total:
+        return "The scores are tied at " + str(my_total) + " points."
 
 with open(os.path.join(sys.path[0], "input.txt"), "r") as file_content:
     lines = file_content.readlines()
@@ -55,15 +63,4 @@ with open(os.path.join(sys.path[0], "input.txt"), "r") as file_content:
         elif opponent_hand_sign == "Scissors" and my_hand_sign == "Rock":
             my_score += score_change["win"]
 
-winning_score = max(my_score,opponent_score)
-losing_score = min(my_score,opponent_score)
-
-if winning_score == my_score:
-    winner = "me"
-    loser = "the other guy"
-else: 
-    winner = "the other guy"
-    loser = "me"
-    
-print ("The winner is " + winner + " with " + str(winning_score) + " points.")
-print("The loser is " + loser + " with " + str(losing_score) + " points")
+print(outcome(my_score,opponent_score))
