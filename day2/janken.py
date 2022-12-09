@@ -6,7 +6,7 @@ scissors_score = 3
 lose_score = 0
 draw_score = 3
 win_score = 6
-my_score =0
+my_score = 0
 opponent_score = 0
 
 
