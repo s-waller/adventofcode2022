@@ -11,6 +11,9 @@ def check_priority(letter):
     if letter.isupper():
         return ord(letter) - 38
 
+def split_string(input):
+    string_length = len(i)
+    return input[:len(input)//2],input[len(input)//2:]
 
 #get rucksacks, 1 per line
 with open(os.path.join(sys.path[0], "input.txt"), "r") as file_content:
