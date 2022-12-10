@@ -21,8 +21,10 @@ def find_common_chars(string1,string2):
 with open(os.path.join(sys.path[0], "input.txt"), "r") as file_content:
     lines = file_content.readlines()
     for i in lines:
-        i = str(i).strip()
-        
+        string = str(i).strip()
+        compartments = split_string(string)
+        common_items = find_common_chars(compartments[0],compartments[1])
+
 #divide rucksacks into compartments
 
 #find any items that are in both compartments
