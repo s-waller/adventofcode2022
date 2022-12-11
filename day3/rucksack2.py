@@ -6,8 +6,8 @@ def check_priority(letter):
     if letter.isupper():
         return ord(letter) - 38
 
-def find_common_chars(string1,string2):
-    return ''.join(set(string1).intersection(string2))
+def find_common_chars(string1,string2,string3):
+    return ''.join(set(string1).intersection(string2,string3))
 
 priority_total = 0
 
@@ -19,10 +19,8 @@ with open(os.path.join(sys.path[0], "input.txt"), "r") as file_content:
         string = str(i).strip()
         group.append(string)
         if len(group) == 3:
-
-            
-
-
+            common_item = find_common_chars(group[0],group[1],group[2])
+            priority_total += check_priority(common_item)
             group = []
-        
-print(len(group))
+
+print(priority_total)
