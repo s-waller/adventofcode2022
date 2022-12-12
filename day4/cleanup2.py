@@ -13,6 +13,9 @@ def get_elf_zone_range(pair_list,elf_index):
 def list_elf_zones(elf_zones_shorthand):
     return list(range(int(elf_zones_shorthand[0]),(int(elf_zones_shorthand[-1]) + 1)))
 
+def find_common_zones(list1,list2):
+    return (set(list1).intersection(list2))
+
 count = 0
 
 for line in (read_file("input.txt")):
@@ -27,6 +30,8 @@ for line in (read_file("input.txt")):
     elf2_zone_short = get_elf_zone_range(pair_list,-1)
     elf2_zones = list_elf_zones(elf2_zone_short)
 
-    if(set(elf1_zones).issubset(set(elf2_zones))) or (set(elf2_zones).issubset(set(elf1_zones))):
-        count += 1
-print(count)
+    print(find_common_zones(elf1_zones,elf2_zones))
+
+#    if placeholder:
+#        count += 1
+#print(count)
