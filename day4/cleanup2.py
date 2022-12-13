@@ -30,8 +30,6 @@ for line in (read_file("input.txt")):
     elf2_zone_short = get_elf_zone_range(pair_list,-1)
     elf2_zones = list_elf_zones(elf2_zone_short)
 
-    print(find_common_zones(elf1_zones,elf2_zones))
-
-#    if placeholder:
-#        count += 1
-#print(count)
+    if len(find_common_zones(elf1_zones,elf2_zones)) > 0:
+        count += 1
+print(count)
