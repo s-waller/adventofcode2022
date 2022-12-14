@@ -1,4 +1,4 @@
-import sys,os,re
+import sys,os,re,collections
 
 def read_file(file):
     with open(os.path.join(sys.path[0], file), "r") as file_content:
@@ -19,13 +19,19 @@ def contains_numbers(line_input):
 def follow_instructions(move):
     return # crate_stack_change
 
+crate_columns = collections.OrderedDict()
+
 for line in (read_file("cratesparsetest.txt")):
     if line == '\n':
         continue
     if line.startswith("move"):
         placeholder = 0 # follow instructions
     elif contains_numbers(line):
-        print("line contains numbers")
+        number_list = re.findall('\d', line)
+        print (number_list)
+        for i in number_list:
+            crate_columns['column_%s' % i] = []
+        print(crate_columns)
     else:
         starting_positions = (get_starting_positions(line))
         print(create_lists(starting_positions))
