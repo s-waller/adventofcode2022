@@ -35,7 +35,6 @@ for line in (read_file("cratesparsetest.txt")):
 
 row_counter = 0
 column_starting_height = length_of_column - 1
-
 # add starting positions to dictionary
 for line in (read_file("cratesparsetest.txt")):
     if line == '\n':
@@ -46,29 +45,27 @@ for line in (read_file("cratesparsetest.txt")):
         column_counter = 0
         starting_positions = (get_starting_positions(line))
         crate_position_row = create_list(starting_positions)
-        #print(crate_position_row)
         for i in crate_position_row:
             list(crate_columns.items())[column_counter][1][column_starting_height] = i
             column_counter += 1
         column_starting_height -= 1
         row_counter += 1
-        print(crate_position_row)
-#print(crate_columns)
-#print(list(crate_columns.keys())[row_counter])
-#print(list(crate_columns.items())[7][1][0])
-#print(crate_position_row)
+
+# strip empty placeholder list values
+list_indexer = 0
+for index in crate_columns.keys():
+    stripped_list = (list([x for x in list(crate_columns.items())[list_indexer][1] if x.strip()]))
+    list_indexer += 1
+    crate_columns[index] = stripped_list
+    #print(crate_columns[index])
+
 
 # run through actions
 for line in (read_file("cratesparsetest.txt")):
     if line.startswith("move"):
         placeholder = 0 # follow instructions
+#        (list(crate_columns.items())[0][1]).append("D")
+#        (list(crate_columns.items())[0][1]).remove("D")
+#       print(list(crate_columns.items())[0][1])
     else:
         continue
-
-
-print("\n")
-print(crate_columns)
-#crate_column_items = list(crate_columns.items())
-#crate_column_keys = list(crate_columns.keys())
-#print(crate_column_items[0])
-#print(crate_column_keys[0])
