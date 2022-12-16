@@ -1,4 +1,4 @@
-import sys,os,re,collections
+import sys,os,re,collections,subprocess
 
 def read_file(file):
     with open(os.path.join(sys.path[0], file), "r") as file_content:
@@ -66,6 +66,12 @@ for index in crate_columns.keys():
     crate_columns[index] = stripped_list
     #print(crate_columns[index])
 
+# checkpoint - block positions at beginning
+print("\033c\033[3J", end='')
+for index in crate_columns.keys():
+    print(crate_columns[index])
+print("\n")
+
 # run through actions
 for line in (read_file("cratesparsetest.txt")):
     if line.startswith("move"):
@@ -73,17 +79,19 @@ for line in (read_file("cratesparsetest.txt")):
 #        (list(crate_columns.items())[0][1]).append("D")
 #        (list(crate_columns.items())[0][1]).remove("D")
         #print(list(crate_columns.items())[0][1][-1])
+
+        print("\033c\033[3J", end='')
+        for index in crate_columns.keys():
+            print(crate_columns[index])
     else:
         continue
 
-for index in crate_columns.keys():
-    print(crate_columns[index])
-print("\n")
 # move 3 from 5 to 2
-
 move_blocks(3,5,2)
 move_blocks(3,8,4)
 move_blocks(7,7,3)
 
+print("\033c\033[3J", end='')
+# checkpoint - block positions at the end
 for index in crate_columns.keys():
     print(crate_columns[index])
