@@ -1,4 +1,4 @@
-import sys,os,re,collections,subprocess
+import sys,os,re,collections
 
 def read_file(file):
     with open(os.path.join(sys.path[0], file), "r") as file_content:
@@ -16,6 +16,12 @@ def create_list(starting_position_line):
 def contains_numbers(line_input):
     return bool(re.search(r'\d', line_input))
 
+def parse_instructions(line):
+    move_count = (re.search('move (\d+)', line)).group(1)
+    from_column_number = (re.search('from (\d+)', line)).group(1)
+    to_column_number = (re.search('to (\d+)', line)).group(1)
+    return [move_count,from_column_number,to_column_number]
+
 def move_blocks(number_of_moves,from_stack,to_stack):
     number_of_moves_var = number_of_moves
     from_stack_var = from_stack
@@ -24,6 +30,13 @@ def move_blocks(number_of_moves,from_stack,to_stack):
         block_to_move = list(crate_columns.items())[int(from_stack_var) -1][1][-1]
         (list(crate_columns.items())[int(from_stack_var) -1][1]).pop()
         (list(crate_columns.items())[int(to_stack_var) -1][1]).append(block_to_move)
+    return
+
+def check_crate_positions():
+    #print("\033c\033[3J", end='')
+    print("\033c")
+    for index in crate_columns.keys():
+        print(crate_columns[index])
     return
 
 # build dictionary 
@@ -67,31 +80,19 @@ for index in crate_columns.keys():
     #print(crate_columns[index])
 
 # checkpoint - block positions at beginning
-print("\033c\033[3J", end='')
-for index in crate_columns.keys():
-    print(crate_columns[index])
-print("\n")
+check_crate_positions()
 
 # run through actions
 for line in (read_file("cratesparsetest.txt")):
     if line.startswith("move"):
-        placeholder = 0 # follow instructions
 #        (list(crate_columns.items())[0][1]).append("D")
 #        (list(crate_columns.items())[0][1]).remove("D")
         #print(list(crate_columns.items())[0][1][-1])
-
-        print("\033c\033[3J", end='')
-        for index in crate_columns.keys():
-            print(crate_columns[index])
+        instructions = parse_instructions(line)
+        move_blocks(instructions[0],instructions[1],instructions[2])
+        check_crate_positions()
+        #sleep
     else:
         continue
 
-# move 3 from 5 to 2
-move_blocks(3,5,2)
-move_blocks(3,8,4)
-move_blocks(7,7,3)
-
-print("\033c\033[3J", end='')
-# checkpoint - block positions at the end
-for index in crate_columns.keys():
-    print(crate_columns[index])
+# check top crate in each column
