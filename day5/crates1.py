@@ -16,8 +16,15 @@ def create_list(starting_position_line):
 def contains_numbers(line_input):
     return bool(re.search(r'\d', line_input))
 
-def follow_instructions(move):
-    return # crate_stack_change
+def move_blocks(number_of_moves,from_stack,to_stack):
+    number_of_moves_var = number_of_moves
+    from_stack_var = from_stack
+    to_stack_var = to_stack
+    for i in range(int(number_of_moves_var)):
+        block_to_move = list(crate_columns.items())[int(from_stack_var) -1][1][-1]
+        (list(crate_columns.items())[int(from_stack_var) -1][1]).pop()
+        (list(crate_columns.items())[int(to_stack_var) -1][1]).append(block_to_move)
+    return
 
 # build dictionary 
 crate_columns = collections.OrderedDict()
@@ -59,13 +66,24 @@ for index in crate_columns.keys():
     crate_columns[index] = stripped_list
     #print(crate_columns[index])
 
-
 # run through actions
 for line in (read_file("cratesparsetest.txt")):
     if line.startswith("move"):
         placeholder = 0 # follow instructions
 #        (list(crate_columns.items())[0][1]).append("D")
 #        (list(crate_columns.items())[0][1]).remove("D")
-#       print(list(crate_columns.items())[0][1])
+        #print(list(crate_columns.items())[0][1][-1])
     else:
         continue
+
+for index in crate_columns.keys():
+    print(crate_columns[index])
+print("\n")
+# move 3 from 5 to 2
+
+move_blocks(3,5,2)
+move_blocks(3,8,4)
+move_blocks(7,7,3)
+
+for index in crate_columns.keys():
+    print(crate_columns[index])
