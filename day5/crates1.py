@@ -1,4 +1,4 @@
-import sys,os,re,collections
+import sys,os,re,collections,time
 
 def read_file(file):
     with open(os.path.join(sys.path[0], file), "r") as file_content:
@@ -30,19 +30,26 @@ def move_blocks(number_of_moves,from_stack,to_stack):
         block_to_move = list(crate_columns.items())[int(from_stack_var) -1][1][-1]
         (list(crate_columns.items())[int(from_stack_var) -1][1]).pop()
         (list(crate_columns.items())[int(to_stack_var) -1][1]).append(block_to_move)
+        check_crate_positions()
     return
 
 def check_crate_positions():
-    #print("\033c\033[3J", end='')
+    #time.sleep(0.0005)
     print("\033c")
     for index in crate_columns.keys():
         print(crate_columns[index])
     return
 
+def get_top_crates():
+    top_crates_string = ""
+    for index in crate_columns.keys():
+        top_crates_string += crate_columns[index][-1]
+    return top_crates_string
+
 # build dictionary 
 crate_columns = collections.OrderedDict()
 length_of_column = 0
-for line in (read_file("cratesparsetest.txt")):
+for line in (read_file("input.txt")):
     if line == '\n':
         break
     elif contains_numbers(line):
@@ -56,7 +63,7 @@ for line in (read_file("cratesparsetest.txt")):
 row_counter = 0
 column_starting_height = length_of_column - 1
 # add starting positions to dictionary
-for line in (read_file("cratesparsetest.txt")):
+for line in (read_file("input.txt")):
     if line == '\n':
         break
     elif contains_numbers(line):
@@ -83,16 +90,13 @@ for index in crate_columns.keys():
 check_crate_positions()
 
 # run through actions
-for line in (read_file("cratesparsetest.txt")):
+for line in (read_file("input.txt")):
     if line.startswith("move"):
-#        (list(crate_columns.items())[0][1]).append("D")
-#        (list(crate_columns.items())[0][1]).remove("D")
-        #print(list(crate_columns.items())[0][1][-1])
         instructions = parse_instructions(line)
         move_blocks(instructions[0],instructions[1],instructions[2])
-        check_crate_positions()
-        #sleep
+        #check_crate_positions()
     else:
         continue
 
 # check top crate in each column
+print(get_top_crates())
