@@ -23,18 +23,15 @@ def parse_instructions(line):
     return [move_count,from_column_number,to_column_number]
 
 def move_blocks(number_of_moves,from_stack,to_stack):
-    number_of_moves_var = number_of_moves
-    from_stack_var = from_stack
-    to_stack_var = to_stack
-    for i in range(int(number_of_moves_var)):
-        block_to_move = list(crate_columns.items())[int(from_stack_var) -1][1][-1]
-        (list(crate_columns.items())[int(from_stack_var) -1][1]).pop()
-        (list(crate_columns.items())[int(to_stack_var) -1][1]).append(block_to_move)
+    for i in range(int(number_of_moves)):
+        block_to_move = list(crate_columns.items())[int(from_stack) -1][1][-1]
+        (list(crate_columns.items())[int(from_stack) -1][1]).pop()
+        (list(crate_columns.items())[int(to_stack) -1][1]).append(block_to_move)
         check_crate_positions()
     return
 
 def check_crate_positions():
-    #time.sleep(0.0005)
+    time.sleep(0.0005)
     print("\033c")
     for index in crate_columns.keys():
         print(crate_columns[index])
