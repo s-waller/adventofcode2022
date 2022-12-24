@@ -1,4 +1,4 @@
-import sys,os,re
+import sys,os,re,json
 
 def read_lines(file):
     with open(os.path.join(sys.path[0], file), "r") as file_content:
@@ -20,6 +20,9 @@ def parse_command(input):
 def get_argument(input):
     return input.split()[-1]
 
+def get_file_size(input):
+    return input.split()[0]
+
 def change_depth(argument):
     if argument == "..":
         return - 1
@@ -27,42 +30,6 @@ def change_depth(argument):
         return 0
     else:
         return 1
-
-
-def run_command(command):
-    
-        if command_base == "cd":
-            if argument == "..":
-                current_directory = previous_directory_1
-                previous_directory_1 = previous_directory_2
-                previous_directory_2 = previous_directory_3
-                previous_directory_3 = previous_directory_4
-                previous_directory_4 = previous_directory_5
-                previous_directory_5 = previous_directory_6
-                previous_directory_6 = previous_directory_7
-                previous_directory_7 = previous_directory_8
-                previous_directory_8 = previous_directory_9
-                previous_directory_9 = None
-                depth = depth - 1
-            elif argument == "/":
-                tree_size[argument] = {}
-                current_directory = argument
-                depth = 0
-            else:
-                tree_size[current_directory][argument] = {}
-                previous_directory_9 = previous_directory_8
-                previous_directory_8 = previous_directory_7
-                previous_directory_7 = previous_directory_6
-                previous_directory_6 = previous_directory_5
-                previous_directory_5 = previous_directory_4
-                previous_directory_4 = previous_directory_3
-                previous_directory_3 = previous_directory_2
-                previous_directory_2 = previous_directory_1
-                previous_directory_1 = current_directory
-                current_directory = argument
-                depth = depth + 1
-        else:
-            return
 
 previous_directory_9 = None
 previous_directory_8 = None
@@ -75,7 +42,7 @@ previous_directory_2 = None
 previous_directory_1 = None
 current_directory = None
 tree_size = {}
-depth = 0
+depth = -1
 
 ##########################################################
 
@@ -92,8 +59,11 @@ for line in read_lines("input.txt"):
 
             if change_depth_result == 0:
                 depth = 0
+                current_directory = argument
+                if not tree_size.get(current_directory):
+                    tree_size[current_directory] = {}
+
             else:
-                depth = depth + change_depth_result
                 if change_depth_result > 0:
                     previous_directory_9 = previous_directory_8
                     previous_directory_8 = previous_directory_7
@@ -118,32 +88,34 @@ for line in read_lines("input.txt"):
                     previous_directory_7 = previous_directory_8
                     previous_directory_8 = previous_directory_9
                     previous_directory_9 = None
+
+                depth = depth + change_depth_result
             
         elif command_type == "ls":
-            print(tree_size)
+            continue
 
     elif line_type == "sub_directory":
         directory_name = get_argument(stripped_line)
         if int(depth) == 0:
-            if not tree_size[current_directory][directory_name]:
+            if not tree_size.get(current_directory,{}).get(directory_name):
                 tree_size[current_directory][directory_name] = {}
         elif depth == 1:
-            if not tree_size[previous_directory_1][current_directory][directory_name]:
+            if not tree_size.get(previous_directory_1,{}).get(current_directory,{}).get(directory_name):
                 tree_size[previous_directory_1][current_directory][directory_name] = {}
         elif depth == 2:
-            if not tree_size[previous_directory_2][previous_directory_1][current_directory][directory_name]:
+            if not tree_size.get(previous_directory_2,{}).get(previous_directory_1,{}).get(current_directory,{}).get(directory_name):
                 tree_size[previous_directory_2][previous_directory_1][current_directory][directory_name] = {}
         elif depth == 3:
-            if not tree_size[previous_directory_3][previous_directory_2][previous_directory_1][current_directory][directory_name]:
+            if not tree_size.get(previous_directory_3,{}).get(previous_directory_2,{}).get(previous_directory_1,{}).get(current_directory,{}).get(directory_name):
                 tree_size[previous_directory_3][previous_directory_2][previous_directory_1][current_directory][directory_name] = {}
         elif depth == 4:
-            if not tree_size[previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][directory_name]:
+            if not tree_size.get(previous_directory_4,{}).get(previous_directory_3,{}).get(previous_directory_2,{}).get(previous_directory_1,{}).get(current_directory,{}).get(directory_name):
                 tree_size[previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][directory_name] = {}
         elif depth == 5:
-            if not tree_size[previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][directory_name]:
+            if not tree_size.get(previous_directory_5,{}).get(previous_directory_4,{}).get(previous_directory_3,{}).get(previous_directory_2,{}).get(previous_directory_1,{}).get(current_directory,{}).get(directory_name):
                 tree_size[previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][directory_name] = {}
         elif depth == 6:
-            if not tree_size[previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][directory_name]:
+            if not tree_size.get(previous_directory_6,{}).get(previous_directory_5,{}).get(previous_directory_4,{}).get(previous_directory_3,{}).get(previous_directory_2,{}).get(previous_directory_1,{}).get(current_directory,{}).get(directory_name):
                 tree_size[previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][directory_name] = {}
         elif depth == 7:
             if not tree_size[previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][directory_name]:
@@ -156,10 +128,39 @@ for line in read_lines("input.txt"):
                 tree_size[previous_directory_9][previous_directory_8][previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][directory_name] = {}
 
 
-
     elif line_type == "file":
+        file_size = get_file_size(stripped_line)
 
+        file_name = get_argument(stripped_line)
+        if int(depth) == 0:
+            if not tree_size.get(current_directory,{}).get(file_name):
+                tree_size[current_directory][file_name] = file_size
+        elif depth == 1:
+            if not tree_size.get(previous_directory_1,{}).get(current_directory,{}).get(file_name):
+                tree_size[previous_directory_1][current_directory][file_name] = file_size
+        elif depth == 2:
+            if not tree_size.get(previous_directory_2,{}).get(previous_directory_1,{}).get(current_directory,{}).get(file_name):
+                tree_size[previous_directory_2][previous_directory_1][current_directory][file_name] = file_size
+        elif depth == 3:
+            if not tree_size.get(previous_directory_3,{}).get(previous_directory_2,{}).get(previous_directory_1,{}).get(current_directory,{}).get(file_name):
+                tree_size[previous_directory_3][previous_directory_2][previous_directory_1][current_directory][file_name] = file_size
+        elif depth == 4:
+            if not tree_size.get(previous_directory_4,{}).get(previous_directory_3,{}).get(previous_directory_2,{}).get(previous_directory_1,{}).get(current_directory,{}).get(file_name):
+                tree_size[previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][file_name] = file_size
+        elif depth == 5:
+            if not tree_size.get(previous_directory_5,{}).get(previous_directory_4,{}).get(previous_directory_3,{}).get(previous_directory_2,{}).get(previous_directory_1,{}).get(current_directory,{}).get(file_name):
+                tree_size[previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][file_name] = file_size
+        elif depth == 6:
+            if not tree_size.get(previous_directory_6,{}).get(previous_directory_5,{}).get(previous_directory_4,{}).get(previous_directory_3,{}).get(previous_directory_2,{}).get(previous_directory_1,{}).get(current_directory,{}).get(file_name):
+                tree_size[previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][file_name] = file_size
+        elif depth == 7:
+            if not tree_size.get(previous_directory_7,{}).get(previous_directory_6,{}).get(previous_directory_5,{}).get(previous_directory_4,{}).get(previous_directory_3,{}).get(previous_directory_2,{}).get(previous_directory_1,{}).get(current_directory,{}).get(file_name):
+                tree_size[previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][file_name] = file_size
+        elif depth == 8:
+            if not tree_size[previous_directory_8][previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][file_name]:
+                tree_size[previous_directory_8][previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][file_name] = file_size
+        elif depth == 9:
+            if not tree_size[previous_directory_9][previous_directory_8][previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][file_name]:
+                tree_size[previous_directory_9][previous_directory_8][previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][file_name] = file_size
 
-result = list(getpaths(tree_size))
-print(result)
-print(tree_size)
+#print (json.dumps(tree_size, indent=4, default=str))
