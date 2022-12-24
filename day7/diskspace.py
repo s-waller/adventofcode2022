@@ -20,8 +20,13 @@ def parse_command(input):
 def get_argument(input):
     return input.split()[-1]
 
-def change_depth(command):
-    command = command.split()
+def change_depth(argument):
+    if argument == "..":
+        return - 1
+    elif argument == "/":
+        return 0
+    else:
+        return 1
 
 
 def run_command(command):
@@ -59,12 +64,6 @@ def run_command(command):
         else:
             return
 
-def getpaths(d):
-    if not isinstance(d, dict):
-        yield [d]
-    else:
-        yield from ([k] + w for k, v in d.items() for w in getpaths(v))
-
 previous_directory_9 = None
 previous_directory_8 = None
 previous_directory_7 = None
@@ -83,53 +82,82 @@ depth = 0
 for line in read_lines("input.txt"):
     stripped_line = line.strip()
     line_type = line_parse(stripped_line)
+
     if line_type == "shell_command":
         command_type = parse_command(stripped_line)
-        if command_type == "cd":
 
+        if command_type == "cd":
+            argument = get_argument(stripped_line)
+            change_depth_result = change_depth(argument)
+
+            if change_depth_result == 0:
+                depth = 0
+            else:
+                depth = depth + change_depth_result
+                if change_depth_result > 0:
+                    previous_directory_9 = previous_directory_8
+                    previous_directory_8 = previous_directory_7
+                    previous_directory_7 = previous_directory_6
+                    previous_directory_6 = previous_directory_5
+                    previous_directory_5 = previous_directory_4
+                    previous_directory_4 = previous_directory_3
+                    previous_directory_3 = previous_directory_2
+                    previous_directory_2 = previous_directory_1
+                    previous_directory_1 = current_directory
+                    current_directory = argument
+                    line_type == "sub_directory"
+
+                if change_depth_result < 0:
+                    current_directory = previous_directory_1
+                    previous_directory_1 = previous_directory_2
+                    previous_directory_2 = previous_directory_3
+                    previous_directory_3 = previous_directory_4
+                    previous_directory_4 = previous_directory_5
+                    previous_directory_5 = previous_directory_6
+                    previous_directory_6 = previous_directory_7
+                    previous_directory_7 = previous_directory_8
+                    previous_directory_8 = previous_directory_9
+                    previous_directory_9 = None
+            
         elif command_type == "ls":
+            print(tree_size)
 
     elif line_type == "sub_directory":
+        directory_name = get_argument(stripped_line)
+        if int(depth) == 0:
+            if not tree_size[current_directory][directory_name]:
+                tree_size[current_directory][directory_name] = {}
+        elif depth == 1:
+            if not tree_size[previous_directory_1][current_directory][directory_name]:
+                tree_size[previous_directory_1][current_directory][directory_name] = {}
+        elif depth == 2:
+            if not tree_size[previous_directory_2][previous_directory_1][current_directory][directory_name]:
+                tree_size[previous_directory_2][previous_directory_1][current_directory][directory_name] = {}
+        elif depth == 3:
+            if not tree_size[previous_directory_3][previous_directory_2][previous_directory_1][current_directory][directory_name]:
+                tree_size[previous_directory_3][previous_directory_2][previous_directory_1][current_directory][directory_name] = {}
+        elif depth == 4:
+            if not tree_size[previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][directory_name]:
+                tree_size[previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][directory_name] = {}
+        elif depth == 5:
+            if not tree_size[previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][directory_name]:
+                tree_size[previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][directory_name] = {}
+        elif depth == 6:
+            if not tree_size[previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][directory_name]:
+                tree_size[previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][directory_name] = {}
+        elif depth == 7:
+            if not tree_size[previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][directory_name]:
+                tree_size[previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][directory_name] = {}
+        elif depth == 8:
+            if not tree_size[previous_directory_8][previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][directory_name]:
+                tree_size[previous_directory_8][previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][directory_name] = {}
+        elif depth == 9:
+            if not tree_size[previous_directory_9][previous_directory_8][previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][directory_name]:
+                tree_size[previous_directory_9][previous_directory_8][previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][directory_name] = {}
+
 
 
     elif line_type == "file":
-
-
-
-
-    if (stripped_line)[0] == "$":
-        command = stripped_line[1:]
-        run_command(command)
-        print(command)
-
-
-
-
-
-
-
-
-    elif str(stripped_line)[0] == "dir":
-        if int(depth) == 0:
-            tree_size[current_directory][str(stripped_line[1])] = {}
-        elif depth == 1:
-            tree_size[previous_directory_1][current_directory][str(stripped_line[1])] = {}
-        elif depth == 2:
-            tree_size[previous_directory_2][previous_directory_1][current_directory][str(stripped_line[1])] = {}
-        elif depth == 3:
-            tree_size[previous_directory_3][previous_directory_2][previous_directory_1][current_directory][str(stripped_line[1])] = {}
-        elif depth == 4:
-            tree_size[previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][str(stripped_line[1])] = {}
-        elif depth == 5:
-            tree_size[previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][str(stripped_line[1])] = {}
-        elif depth == 6:
-            tree_size[previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][str(stripped_line[1])] = {}
-        elif depth == 7:
-            tree_size[previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][str(stripped_line[1])] = {}
-        elif depth == 8:
-            tree_size[previous_directory_8][previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][str(stripped_line[1])] = {}
-        elif depth == 9:
-            tree_size[previous_directory_9][previous_directory_8][previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][str(stripped_line[1])] = {}
 
 
 result = list(getpaths(tree_size))
