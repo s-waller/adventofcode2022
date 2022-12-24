@@ -12,16 +12,20 @@ def line_parse(input):
     elif bool(re.search(r'\d', (input).split()[0])):
         return "file"
     else:
-        return "unable to parse line"
+        return
+
+def parse_command(input):
+    return input.split()[1]
+
+def get_argument(input):
+    return input.split()[-1]
 
 def change_depth(command):
     command = command.split()
 
 
 def run_command(command):
-    if len(command) > 1:
-        argument = command[1]
-        command_base = command[0]
+    
         if command_base == "cd":
             if argument == "..":
                 current_directory = previous_directory_1
@@ -74,9 +78,21 @@ current_directory = None
 tree_size = {}
 depth = 0
 
+##########################################################
+
 for line in read_lines("input.txt"):
     stripped_line = line.strip()
     line_type = line_parse(stripped_line)
+    if line_type == "shell_command":
+        command_type = parse_command(stripped_line)
+        if command_type == "cd":
+
+        elif command_type == "ls":
+
+    elif line_type == "sub_directory":
+
+
+    elif line_type == "file":
 
 
 
