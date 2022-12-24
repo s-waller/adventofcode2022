@@ -1,13 +1,21 @@
-import sys,os
+import sys,os,re
 
 def read_lines(file):
     with open(os.path.join(sys.path[0], file), "r") as file_content:
         return file_content.readlines()
 
-def command_parse(input):
-    return
+def line_parse(input):
+    if (input)[0] == "$":
+        return "shell_command"
+    elif (input).split()[0] == "dir":
+        return "sub_directory"
+    elif bool(re.search(r'\d', (input).split()[0])):
+        return "file"
+    else:
+        return "unable to parse line"
 
 def change_depth(command):
+    command = command.split()
 
 
 def run_command(command):
@@ -67,11 +75,24 @@ tree_size = {}
 depth = 0
 
 for line in read_lines("input.txt"):
-    stripped_line = line.strip().split()
+    stripped_line = line.strip()
+    line_type = line_parse(stripped_line)
+
+
+
+
     if (stripped_line)[0] == "$":
         command = stripped_line[1:]
         run_command(command)
         print(command)
+
+
+
+
+
+
+
+
     elif str(stripped_line)[0] == "dir":
         if int(depth) == 0:
             tree_size[current_directory][str(stripped_line[1])] = {}
