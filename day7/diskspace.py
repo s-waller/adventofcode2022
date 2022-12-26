@@ -46,7 +46,7 @@ depth = -1
 
 ##########################################################
 
-for line in read_lines("testdata.txt"):
+for line in read_lines("input.txt"):
     stripped_line = line.strip()
     line_type = line_parse(stripped_line)
 
@@ -134,11 +134,7 @@ for line in read_lines("testdata.txt"):
             if not tree_size[previous_directory_8][previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][directory_name]:
                 tree_size[previous_directory_8][previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][directory_name] = {}
                 tree_size[previous_directory_8][previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][directory_name]["total"] = 0
-        elif depth == 9:
-            if not tree_size[previous_directory_9][previous_directory_8][previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][directory_name]:
-                tree_size[previous_directory_9][previous_directory_8][previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][directory_name] = {}
-                tree_size[previous_directory_9][previous_directory_8][previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][directory_name]["total"] = 0
-
+        
 
     elif line_type == "file":
         file_size = get_file_size(stripped_line)
@@ -152,40 +148,70 @@ for line in read_lines("testdata.txt"):
             if not tree_size.get(previous_directory_1,{}).get(current_directory,{}).get(file_name):
                 tree_size[previous_directory_1][current_directory][file_name] = file_size
                 tree_size[previous_directory_1][current_directory]["total"] = tree_size[previous_directory_1][current_directory]["total"] + int(file_size)
+                tree_size[previous_directory_1]["total"] = tree_size[previous_directory_1]["total"] + int(file_size)
         elif depth == 2:
             if not tree_size.get(previous_directory_2,{}).get(previous_directory_1,{}).get(current_directory,{}).get(file_name):
                 tree_size[previous_directory_2][previous_directory_1][current_directory][file_name] = file_size
                 tree_size[previous_directory_2][previous_directory_1][current_directory]["total"] = tree_size[previous_directory_2][previous_directory_1][current_directory]["total"] + int(file_size)
+                tree_size[previous_directory_2][previous_directory_1]["total"] = tree_size[previous_directory_2][previous_directory_1]["total"] + int(file_size)
+                tree_size[previous_directory_2]["total"] = tree_size[previous_directory_2]["total"] + int(file_size)
         elif depth == 3:
             if not tree_size.get(previous_directory_3,{}).get(previous_directory_2,{}).get(previous_directory_1,{}).get(current_directory,{}).get(file_name):
                 tree_size[previous_directory_3][previous_directory_2][previous_directory_1][current_directory][file_name] = file_size
                 tree_size[previous_directory_3][previous_directory_2][previous_directory_1][current_directory]["total"] = tree_size[previous_directory_3][previous_directory_2][previous_directory_1][current_directory]["total"] + int(file_size)
+                tree_size[previous_directory_3][previous_directory_2][previous_directory_1]["total"] = tree_size[previous_directory_3][previous_directory_2][previous_directory_1]["total"] + int(file_size)
+                tree_size[previous_directory_3][previous_directory_2]["total"] = tree_size[previous_directory_3][previous_directory_2]["total"] + int(file_size)
+                tree_size[previous_directory_3]["total"] = tree_size[previous_directory_3]["total"] + int(file_size)
         elif depth == 4:
             if not tree_size.get(previous_directory_4,{}).get(previous_directory_3,{}).get(previous_directory_2,{}).get(previous_directory_1,{}).get(current_directory,{}).get(file_name):
                 tree_size[previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][file_name] = file_size
                 tree_size[previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory]["total"] = tree_size[previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory]["total"] + int(file_size)
+                tree_size[previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1]["total"] = tree_size[previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1]["total"] + int(file_size)
+                tree_size[previous_directory_4][previous_directory_3][previous_directory_2]["total"] = tree_size[previous_directory_4][previous_directory_3][previous_directory_2]["total"] + int(file_size)
+                tree_size[previous_directory_4][previous_directory_3]["total"] = tree_size[previous_directory_4][previous_directory_3]["total"] + int(file_size)
+                tree_size[previous_directory_4]["total"] = tree_size[previous_directory_4]["total"] + int(file_size)
         elif depth == 5:
             if not tree_size.get(previous_directory_5,{}).get(previous_directory_4,{}).get(previous_directory_3,{}).get(previous_directory_2,{}).get(previous_directory_1,{}).get(current_directory,{}).get(file_name):
                 tree_size[previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][file_name] = file_size
                 tree_size[previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory]["total"] = tree_size[previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory]["total"] + int(file_size)
+                tree_size[previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1]["total"] = tree_size[previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1]["total"] + int(file_size)
+                tree_size[previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2]["total"] = tree_size[previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2]["total"] + int(file_size)
+                tree_size[previous_directory_5][previous_directory_4][previous_directory_3]["total"] = tree_size[previous_directory_5][previous_directory_4][previous_directory_3]["total"] + int(file_size)
+                tree_size[previous_directory_5][previous_directory_4]["total"] = tree_size[previous_directory_5][previous_directory_4]["total"] + int(file_size)
+                tree_size[previous_directory_5]["total"] = tree_size[previous_directory_5]["total"] + int(file_size)
         elif depth == 6:
             if not tree_size.get(previous_directory_6,{}).get(previous_directory_5,{}).get(previous_directory_4,{}).get(previous_directory_3,{}).get(previous_directory_2,{}).get(previous_directory_1,{}).get(current_directory,{}).get(file_name):
                 tree_size[previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][file_name] = file_size
                 tree_size[previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory]["total"] = tree_size[previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory]["total"] + int(file_size)
+                tree_size[previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1]["total"] = tree_size[previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1]["total"] + int(file_size)
+                tree_size[previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2]["total"] = tree_size[previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2]["total"] + int(file_size)
+                tree_size[previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3]["total"] = tree_size[previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3]["total"] + int(file_size)
+                tree_size[previous_directory_6][previous_directory_5][previous_directory_4]["total"] = tree_size[previous_directory_6][previous_directory_5][previous_directory_4]["total"] + int(file_size)
+                tree_size[previous_directory_6][previous_directory_5]["total"] = tree_size[previous_directory_6][previous_directory_5]["total"] + int(file_size)
+                tree_size[previous_directory_6]["total"] = tree_size[previous_directory_6]["total"] + int(file_size)
         elif depth == 7:
             if not tree_size.get(previous_directory_7,{}).get(previous_directory_6,{}).get(previous_directory_5,{}).get(previous_directory_4,{}).get(previous_directory_3,{}).get(previous_directory_2,{}).get(previous_directory_1,{}).get(current_directory,{}).get(file_name):
                 tree_size[previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][file_name] = file_size
                 tree_size[previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory]["total"] = tree_size[previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory]["total"] + int(file_size)
+                tree_size[previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1]["total"] = tree_size[previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1]["total"] + int(file_size)
+                tree_size[previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2]["total"] = tree_size[previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2]["total"] + int(file_size)
+                tree_size[previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3]["total"] = tree_size[previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3]["total"] + int(file_size)
+                tree_size[previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4]["total"] = tree_size[previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4]["total"] + int(file_size)
+                tree_size[previous_directory_7][previous_directory_6][previous_directory_5]["total"] = tree_size[previous_directory_7][previous_directory_6][previous_directory_5]["total"] + int(file_size)
+                tree_size[previous_directory_7][previous_directory_6]["total"] = tree_size[previous_directory_7][previous_directory_6]["total"] + int(file_size)
+                tree_size[previous_directory_7]["total"] = tree_size[previous_directory_7]["total"] + int(file_size)
         elif depth == 8:
             if not tree_size[previous_directory_8][previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][file_name]:
                 tree_size[previous_directory_8][previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][file_name] = file_size
                 tree_size[previous_directory_8][previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory]["total"] = tree_size[previous_directory_8][previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory]["total"] + int(file_size)
-        elif depth == 9:
-            if not tree_size[previous_directory_9][previous_directory_8][previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][file_name]:
-                tree_size[previous_directory_9][previous_directory_8][previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory][file_name] = file_size
-                tree_size[previous_directory_9][previous_directory_8][previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory]["total"] = tree_size[previous_directory_9][previous_directory_8][previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1][current_directory]["total"] + int(file_size)
-
-
+                tree_size[previous_directory_8][previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1]["total"] = tree_size[previous_directory_8][previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2][previous_directory_1]["total"] + int(file_size)
+                tree_size[previous_directory_8][previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2]["total"] = tree_size[previous_directory_8][previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3][previous_directory_2]["total"] + int(file_size)
+                tree_size[previous_directory_8][previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3]["total"] = tree_size[previous_directory_8][previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4][previous_directory_3]["total"] + int(file_size)
+                tree_size[previous_directory_8][previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4]["total"] = tree_size[previous_directory_8][previous_directory_7][previous_directory_6][previous_directory_5][previous_directory_4]["total"] + int(file_size)
+                tree_size[previous_directory_8][previous_directory_7][previous_directory_6][previous_directory_5]["total"] = tree_size[previous_directory_8][previous_directory_7][previous_directory_6][previous_directory_5]["total"] + int(file_size)
+                tree_size[previous_directory_8][previous_directory_7][previous_directory_6]["total"] = tree_size[previous_directory_8][previous_directory_7][previous_directory_6]["total"] + int(file_size)
+                tree_size[previous_directory_8][previous_directory_7]["total"] = tree_size[previous_directory_8][previous_directory_7]["total"] + int(file_size)
+                tree_size[previous_directory_8]["total"] = tree_size[previous_directory_8]["total"] + int(file_size)
 
 
 print (json.dumps(tree_size, indent=4, default=str))
@@ -208,7 +234,7 @@ def find_key(d, value):
         elif v == value:
             return [k]
 
-print(find_key(tree_size, '584'))
+#print(find_key(tree_size, '584'))
 
 def find_deepest_item(obj, key, deepest_item = None):
     if key in obj:
@@ -220,4 +246,5 @@ def find_deepest_item(obj, key, deepest_item = None):
                 deepest_item = item
     return deepest_item
 
-print(find_deepest_item(tree_size, "/"))
+#print(find_deepest_item(tree_size, "/"))
+
