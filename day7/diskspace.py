@@ -31,6 +31,18 @@ def change_depth(argument):
     else:
         return 1
 
+def find_totals(key, dictionary):
+    for k, v in dictionary.items():
+        if k == key:
+            yield v
+        elif isinstance(v, dict):
+            for result in find_totals(key, v):
+                yield result
+        elif isinstance(v, list):
+            for d in v:
+                for result in find_totals(key, d):
+                    yield result
+
 previous_directory_9 = None
 previous_directory_8 = None
 previous_directory_7 = None
@@ -216,35 +228,13 @@ for line in read_lines("input.txt"):
 
 print (json.dumps(tree_size, indent=4, default=str))
 
-def walk_tree(input):
-    for key, value in tree_size.items():
-        if isinstance(value, dict):
-            walk_tree(value)
-        else:
-            print("{0} : {1}".format(key, value))
+list_of_totals = list(find_totals("total", tree_size))
 
-#walk_tree(tree_size)
+end_total = 0
+for i in list_of_totals:
+    if i > 100000:
+        continue
+    else:
+        end_total = end_total + int(i)
 
-def find_key(d, value):
-    for k, v in d.items():
-        if isinstance(v, dict):
-            p = find_key(v, value)
-            if p:
-                return [k] + p
-        elif v == value:
-            return [k]
-
-#print(find_key(tree_size, '584'))
-
-def find_deepest_item(obj, key, deepest_item = None):
-    if key in obj:
-        deepest_item = obj[key]
-    for k, v in obj.items():
-        if isinstance(v, dict):
-            item = find_deepest_item(v, key, deepest_item)
-            if item is not None:
-                deepest_item = item
-    return deepest_item
-
-#print(find_deepest_item(tree_size, "/"))
-
+print(end_total)
