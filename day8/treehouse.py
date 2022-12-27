@@ -37,14 +37,5 @@ def get_columns(input):
     columns = [[row[i] for row in input] for i in range(len(input))]
     return columns
 
-def check_visibility(tree, row, column):
-    return 
-
-def check_row_visibility(index, row):
-    return
-
-def check_column_visibility(index, row):
-    return
-
 if __name__ == "__main__":
     main()
