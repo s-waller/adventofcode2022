@@ -237,9 +237,37 @@ for i in list_of_totals:
     else:
         end_total = end_total + int(i)
 
+print(list_of_totals)
 print(end_total) # answer for part 1
 
 used_space = tree_size.get("/", {}).get("total")
 free_space = 70000000 - used_space
+required_free_space = 30000000
+housekeeping_required = required_free_space - free_space
 
 print(free_space)
+print(housekeeping_required)
+
+new_list = [item for item in list_of_totals if item >= housekeeping_required]
+
+for i in list_of_totals.copy():
+    if i < housekeeping_required:
+        list_of_totals.remove(i)
+    else:
+        continue
+        
+print(min(list_of_totals))
+print(min(new_list))
+
+size_of_target = min(new_list)
+
+def find_key(d, value):
+    for k, v in d.items():
+        if isinstance(v, dict):
+            p = find_key(v, value)
+            if p:
+                return [k] + p
+        elif v == value:
+            return [k]
+
+print(find_key(tree_size, size_of_target))
