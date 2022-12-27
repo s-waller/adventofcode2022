@@ -43,6 +43,15 @@ def find_totals(key, dictionary):
                 for result in find_totals(key, d):
                     yield result
 
+def find_key(d, value):
+    for k, v in d.items():
+        if isinstance(v, dict):
+            p = find_key(v, value)
+            if p:
+                return [k] + p
+        elif v == value:
+            return [k]
+
 previous_directory_9 = None
 previous_directory_8 = None
 previous_directory_7 = None
@@ -260,14 +269,5 @@ print(min(list_of_totals))
 print(min(new_list))
 
 size_of_target = min(new_list)
-
-def find_key(d, value):
-    for k, v in d.items():
-        if isinstance(v, dict):
-            p = find_key(v, value)
-            if p:
-                return [k] + p
-        elif v == value:
-            return [k]
 
 print(find_key(tree_size, size_of_target))
