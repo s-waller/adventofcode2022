@@ -17,6 +17,8 @@ def main():
         multiplier = instruction[1]
         for i in range(int(multiplier)):
             move_selector(direction)
+            if not touch_check():
+                move_T()
             
         #print(grid)
 
@@ -30,6 +32,12 @@ def read_file(file):
         list_of_strings = file_content.read().split('\n')
         result = [i.split() for i in list_of_strings]
         return result
+
+def touch_check():
+    return
+    
+def move_T():
+    return
 
 def find_knot(input):
     return [(i, location.index(input))
