@@ -12,7 +12,9 @@ def main():
         print(coordinates_H)
         direction = instruction[0]
         multiplier = instruction[1]
-        move_selector(direction)
+        for i in range(int(multiplier)):
+            move_selector(direction)
+        #print(grid)
 
     # create a function for each move
 
@@ -57,23 +59,44 @@ def move_left():
     return
 
 def move_right():
-    # if H index == -1 (todo)
-    for row in range(len(grid)):
-        grid[row].append(' ')
+    h_location = find_knot('H')
+    if h_location[0][1] == len(grid[0]) -1:
+        for row in range(len(grid)):
+            grid[row].append(' ')
+        updated_h_location = find_knot('H')
+        grid[updated_h_location[0][0]][updated_h_location[0][1]] = ' '
+        grid[updated_h_location[0][0]][updated_h_location[0][1] + 1] = 'H'
+    else:
+        grid[h_location[0][0]][h_location[0][1]] = ' '
+        grid[h_location[0][0]][h_location[0][1] + 1] = 'H'
     return
 
 def move_up():
-    # if H index == 0 (todo)
-    grid.insert(0, [])
-    for i in range(len(grid[1])):
-        grid[0].append(' ')
+    h_location = find_knot('H')
+    if h_location[0][0] == 0:
+        grid.insert(0, [])
+        for i in range(len(grid[1])):
+            grid[0].append(' ')
+        updated_h_location = find_knot('H')
+        grid[updated_h_location[0][0]][updated_h_location[0][1]] = ' '
+        grid[updated_h_location[0][0] - 1][updated_h_location[0][1]] = 'H'
+    else:
+        grid[h_location[0][0]][h_location[0][1]] = ' '
+        grid[h_location[0][0] - 1][h_location[0][1]] = 'H'
     return
 
 def move_down():
-    # if H index == -1 (todo)
-    grid.append([])
-    for i in range(len(grid[-2])):
-        grid[-1].append(' ')
+    h_location = find_knot('H')
+    if h_location[0][0] == len(grid) -1:
+        grid.append([])
+        for i in range(len(grid[-2])):
+            grid[-1].append(' ')
+        updated_h_location = find_knot('H')
+        grid[updated_h_location[0][0]][updated_h_location[0][1]] = ' '
+        grid[updated_h_location[0][0] - 1][updated_h_location[0][1]] = 'H'
+    else:
+        grid[h_location[0][0]][h_location[0][1]] = ' '
+        grid[h_location[0][0] + 1][h_location[0][1]] = 'H'
     return
 
 def tail_checkpoint():
