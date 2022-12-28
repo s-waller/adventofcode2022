@@ -1,6 +1,7 @@
 import sys,os
 
 grid = [['H']]
+T_positions = [[0,0]]
 
 def main():
     content = read_file("input.txt")
@@ -9,16 +10,16 @@ def main():
     # loop through moves
     for instruction in content:
         coordinates_H = find_knot('H')
-        print(coordinates_H)
+        print(T_positions)
+        print(instruction)
+        #print(coordinates_H)
         direction = instruction[0]
         multiplier = instruction[1]
         for i in range(int(multiplier)):
             move_selector(direction)
+            
         #print(grid)
 
-    # create a function for each move
-
-    # expand grid if required - add a check on move
 
     # make T follow H
 
@@ -53,6 +54,8 @@ def move_left():
         updated_h_location = find_knot('H')
         grid[updated_h_location[0][0]][updated_h_location[0][1]] = ' '
         grid[updated_h_location[0][0]][updated_h_location[0][1] - 1] = 'H'
+        for position in T_positions: # to stablise T's position values against  the expanding grid
+            position[1] = position[1] + 1  
     else:
         grid[h_location[0][0]][h_location[0][1]] = ' '
         grid[h_location[0][0]][h_location[0][1] - 1] = 'H'
@@ -80,6 +83,8 @@ def move_up():
         updated_h_location = find_knot('H')
         grid[updated_h_location[0][0]][updated_h_location[0][1]] = ' '
         grid[updated_h_location[0][0] - 1][updated_h_location[0][1]] = 'H'
+        for position in T_positions: # to stablise T_positions values against the expanding grid
+            position[0] = position[0] + 1
     else:
         grid[h_location[0][0]][h_location[0][1]] = ' '
         grid[h_location[0][0] - 1][h_location[0][1]] = 'H'
@@ -97,9 +102,6 @@ def move_down():
     else:
         grid[h_location[0][0]][h_location[0][1]] = ' '
         grid[h_location[0][0] + 1][h_location[0][1]] = 'H'
-    return
-
-def tail_checkpoint():
     return
 
 if __name__ == "__main__":
