@@ -8,9 +8,12 @@ def main():
 
     # loop through moves
     for instruction in content:
+        coordinates_H = find_knot('H')
+        print(coordinates_H)
         direction = instruction[0]
         multiplier = instruction[1]
         move_selector(direction)
+
     # create a function for each move
 
     # expand grid if required - add a check on move
@@ -25,6 +28,11 @@ def read_file(file):
         result = [i.split() for i in list_of_strings]
         return result
 
+def find_knot(input):
+    return [(i, location.index(input))
+    for i, location in enumerate(grid)
+    if input in location]
+
 def move_selector(input):
     if input == 'L':
         move_left()
@@ -36,9 +44,16 @@ def move_selector(input):
         move_down()
 
 def move_left():
-    # if H index == 0 (todo)
-    for row in range(len(grid)):
-        grid[row].insert(0, ' ')
+    h_location = find_knot('H')
+    if h_location[0][1] == 0:
+        for row in range(len(grid)):
+            grid[row].insert(0, ' ')
+        updated_h_location = find_knot('H')
+        grid[updated_h_location[0][0]][updated_h_location[0][1]] = ' '
+        grid[updated_h_location[0][0]][updated_h_location[0][1] - 1] = 'H'
+    else:
+        grid[h_location[0][0]][h_location[0][1]] = ' '
+        grid[h_location[0][0]][h_location[0][1] - 1] = 'H'
     return
 
 def move_right():
