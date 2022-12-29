@@ -12,13 +12,20 @@ def main():
         coordinates_H = find_knot('H')
         print(T_positions)
         print(instruction)
+        if not touch_check():
+            print("Not touching")
+        else:
+            print("Touching")
         #print(coordinates_H)
         direction = instruction[0]
         multiplier = instruction[1]
         for i in range(int(multiplier)):
             move_selector(direction)
-            if not touch_check():
-                move_T()
+#            if not touch_check():
+#                print("Not touching")
+#            else:
+#                print("Touching")
+                #move_T()
             
         #print(grid)
 
@@ -34,8 +41,14 @@ def read_file(file):
         return result
 
 def touch_check():
-    return
-    
+    H = find_knot('H')
+    T = T_positions[-1]
+    if (H[0][0] == T[0] or H[0][0] == T[0] + 1 or H[0][0] == T[0] - 1) and (H[0][1] == T[1] or H[0][1] == T[1] + 1 or H[0][1] == T[1] - 1):
+        return True
+    else:
+        return False
+
+
 def move_T():
     return
 
@@ -106,7 +119,7 @@ def move_down():
             grid[-1].append(' ')
         updated_h_location = find_knot('H')
         grid[updated_h_location[0][0]][updated_h_location[0][1]] = ' '
-        grid[updated_h_location[0][0] - 1][updated_h_location[0][1]] = 'H'
+        grid[updated_h_location[0][0] + 1][updated_h_location[0][1]] = 'H'
     else:
         grid[h_location[0][0]][h_location[0][1]] = ' '
         grid[h_location[0][0] + 1][h_location[0][1]] = 'H'
