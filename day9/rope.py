@@ -9,10 +9,6 @@ def main():
 
     # loop through moves
     for instruction in content:
-        coordinates_H = find_knot('H')
-        print(T_positions)
-        print(coordinates_H)
-        print(instruction)
         direction = instruction[0]
         multiplier = instruction[1]
         for i in range(int(multiplier)):
@@ -21,6 +17,9 @@ def main():
                 continue
             else:
                 move_T()
+
+    unique_data = [list(x) for x in set(tuple(x) for x in T_positions)]
+    print(len(unique_data))
             
 def read_file(file):
     with open(os.path.join(sys.path[0], file), "r") as file_content:
