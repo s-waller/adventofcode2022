@@ -11,21 +11,16 @@ def main():
     for instruction in content:
         coordinates_H = find_knot('H')
         print(T_positions)
+        print(coordinates_H)
         print(instruction)
-        if not touch_check():
-            print("Not touching")
-        else:
-            print("Touching")
-        #print(coordinates_H)
         direction = instruction[0]
         multiplier = instruction[1]
         for i in range(int(multiplier)):
             move_selector(direction)
-#            if not touch_check():
-#                print("Not touching")
-#            else:
-#                print("Touching")
-                #move_T()
+            if touch_check():
+                continue
+            else:
+                move_T()
             
         #print(grid)
 
@@ -48,9 +43,35 @@ def touch_check():
     else:
         return False
 
-
 def move_T():
-    return
+    H = find_knot('H')
+    T = T_positions[-1]
+    # move left
+    if (H[0][0] == T[0]) and (H[0][1] == T[1] - 2):
+        #new_T_location = [T[0],T[1] - 1]
+        T_positions.append([T[0],T[1] - 1])
+    # move right
+    elif (H[0][0] == T[0]) and (H[0][1] == T[1] + 2):
+        T_positions.append([T[0],T[1] + 1])
+    # move up
+    elif (H[0][0] == T[0] - 2) and (H[0][1] == T[1]):
+        T_positions.append([T[0] - 1,T[1]])
+    # move down
+    elif (H[0][0] == T[0] + 2) and (H[0][1] == T[1]):
+        T_positions.append([T[0] + 1,T[1]])
+    
+    # move left up
+    elif ((H[0][0] == T[0] - 1) and (H[0][1] == T[1] - 2)) or ((H[0][0] == T[0] - 2) and (H[0][1] == T[1] - 1)):
+        T_positions.append([T[0] - 1,T[1] - 1])
+    # move left down
+    elif ((H[0][0] == T[0] + 1) and (H[0][1] == T[1] - 2)) or ((H[0][0] == T[0] + 2) and (H[0][1] == T[1] - 1)):
+        T_positions.append([T[0] + 1,T[1] - 1])
+    # move right up
+    elif ((H[0][0] == T[0] - 2) and (H[0][1] == T[1] + 1)) or ((H[0][0] == T[0] - 1) and (H[0][1] == T[1] + 2)):
+        T_positions.append([T[0] - 1,T[1] + 1])
+    # move right down
+    elif ((H[0][0] == T[0] + 2) and (H[0][1] == T[1] + 1)) or ((H[0][0] == T[0] + 1) and (H[0][1] == T[1] + 2)):
+        T_positions.append([T[0] + 1,T[1] + 1])
 
 def find_knot(input):
     return [(i, location.index(input))
