@@ -4,7 +4,6 @@ X = 1
 cycle = 1
 cycle_checkpoints = []
 crt_screen = [[],[],[],[],[],[]]
-sprite_position = ['#','#','#']
 
 def main():
     content = read_file("input.txt")
@@ -24,20 +23,13 @@ def run_instruction(input):
     if input[0] == 'noop':
         draw_pixel()
         cycle = cycle + 1
-        cycle_check(cycle)
 
     elif input[0] == 'addx':
         draw_pixel()
         cycle = cycle + 1
-        cycle_check(cycle)
         draw_pixel()
         cycle = cycle + 1
         X = X + int(input[1])
-        cycle_check(cycle)
-
-def cycle_check(number):
-    if ((number != 0) and (number % 40 == 0)):
-        cycle_checkpoints.append(int(X) * int(cycle))
 
 def draw_pixel():
     row = check_row()
@@ -47,18 +39,18 @@ def draw_pixel():
         crt_screen[row[0]].append('.')
 
 def check_row():
-    if cycle <= 40:
-        return 0, 0, cycle
+    if cycle >= 1 and cycle <= 40:
+        return 0, 1, cycle
     elif cycle >= 41 and cycle <= 80:
-        return 1, 40, cycle
+        return 1, 41, cycle
     elif cycle >= 81 and cycle <= 120:
-        return 2, 80, cycle
+        return 2, 81, cycle
     elif cycle >= 121 and cycle <= 160:
-        return 3, 120, cycle
+        return 3, 121, cycle
     elif cycle >= 161 and cycle <= 200:
-        return 4, 160, cycle
+        return 4, 161, cycle
     elif cycle >= 201 and cycle <= 240:
-        return 5, 200, cycle
+        return 5, 201, cycle
 
 if __name__ == "__main__":
     main()
