@@ -1,7 +1,7 @@
 import sys,os
 
 X = 1
-cycle = 0
+cycle = 1
 cycle_checkpoints = []
 
 def main():
@@ -9,9 +9,7 @@ def main():
     for instruction in content:
         run_instruction(instruction)
     signal_result = sum(cycle_checkpoints)
-    print(cycle_checkpoints)
     print(signal_result)
-    print(cycle)
 
 def read_file(file):
     with open(os.path.join(sys.path[0], file), "r") as file_content:
@@ -33,7 +31,7 @@ def run_instruction(input):
         cycle_check(cycle)
 
 def cycle_check(number):
-    if (number == 20) or (( number != 0 ) and ( number % 40 == 0 )):
+    if ((number - 20) % 40 == 0):
         cycle_checkpoints.append(int(X) * int(cycle))
 
 if __name__ == "__main__":
