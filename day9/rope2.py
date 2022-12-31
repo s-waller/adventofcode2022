@@ -156,16 +156,16 @@ def move_T(leader, follower):
     elif (H[0] == T[0] + 2) and (H[1] == T[1]):
         follower.append([T[0] + 1,T[1]])
     # move left up
-    elif ((H[0] == T[0] - 1) and (H[1] == T[1] - 2)) or ((H[0] == T[0] - 2) and (H[1] == T[1] - 1)):
+    elif ((H[0] == T[0] - 1) and (H[1] == T[1] - 2)) or ((H[0] == T[0] - 2) and (H[1] == T[1] - 1)) or ((H[0] == T[0] - 2) and (H[1] == T[1] - 2)):
         follower.append([T[0] - 1,T[1] - 1])
     # move left down
-    elif ((H[0] == T[0] + 1) and (H[1] == T[1] - 2)) or ((H[0] == T[0] + 2) and (H[1] == T[1] - 1)):
+    elif ((H[0] == T[0] + 1) and (H[1] == T[1] - 2)) or ((H[0] == T[0] + 2) and (H[1] == T[1] - 1)) or ((H[0] == T[0] + 2) and (H[1] == T[1] - 2)):
         follower.append([T[0] + 1,T[1] - 1])
     # move right up
-    elif ((H[0] == T[0] - 2) and (H[1] == T[1] + 1)) or ((H[0] == T[0] - 1) and (H[1] == T[1] + 2)):
+    elif ((H[0] == T[0] - 2) and (H[1] == T[1] + 1)) or ((H[0] == T[0] - 1) and (H[1] == T[1] + 2)) or ((H[0] == T[0] - 2) and (H[1] == T[1] + 2)):
         follower.append([T[0] - 1,T[1] + 1])
     # move right down
-    elif ((H[0] == T[0] + 2) and (H[1] == T[1] + 1)) or ((H[0] == T[0] + 1) and (H[1] == T[1] + 2)):
+    elif ((H[0] == T[0] + 2) and (H[1] == T[1] + 1)) or ((H[0] == T[0] + 1) and (H[1] == T[1] + 2)) or ((H[0] == T[0] + 2) and (H[1] == T[1] + 2)):
         follower.append([T[0] + 1,T[1] + 1])
 
 if __name__ == "__main__":
