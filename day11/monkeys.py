@@ -8,5 +8,11 @@ def read_file(file):
     with open(os.path.join(sys.path[0], file), "r") as file_content:
         return file_content.read().split('\n')
 
+def choose_monkey(worry_level, test_number):
+    if worry_level % test_number == 0:
+        return # monkey number if true
+    else:
+        return # monkey number if false
+
 if __name__ == "__main__":
     main()
