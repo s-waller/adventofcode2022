@@ -16,7 +16,7 @@ def main():
         for monkey in monkey_data:
             single_monkey = monkey_data.get(monkey)
             while single_monkey['items']:
-                current_item = int(single_monkey['items'][-1])
+                current_item = int(single_monkey['items'][0])
                 new_item_value = int(inspect_item(single_monkey, current_item))
                 target = choose_monkey_target(single_monkey, new_item_value)
                 target_monkey_info = monkey_data.get(target)
@@ -65,14 +65,14 @@ def inspect_item(monkey_info, item):
         "/": operator.truediv,
         "**": operator.pow
     }   
-    selected_operator = re.findall('[^\d]', monkey_info['Operation'])[0]
+    selected_operator = ''.join(re.findall('[^\d]', monkey_info['Operation']))
     try:
         number = int(re.findall('\d+', monkey_info['Operation'])[0])
     except:
         number = 2
     worry_increase = operators[selected_operator](item, number)
     result = math.floor(worry_increase / 3)
-    monkey_info['items'][-1] = result
+    monkey_info['items'][0] = result
     return result
 
 def choose_monkey_target(monkey_info, item):
@@ -83,7 +83,7 @@ def choose_monkey_target(monkey_info, item):
         return monkey_info['FalseThrowTarget']
 
 def throw_item(throwing_monkey, catching_monkey, item):
-    throwing_monkey['items'].pop()
+    throwing_monkey['items'].pop(0)
     catching_monkey['items'].append(item)
     return
 
