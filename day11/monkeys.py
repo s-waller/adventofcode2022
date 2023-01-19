@@ -10,7 +10,6 @@ import time
 def main():
     content = read_file("input.txt")
     monkey_data = build_monkey_dict(content)
-    pprint(monkey_data, sort_dicts=False)
 
     for i in range(20): # 20 rounds
         for monkey in monkey_data:
@@ -21,10 +20,7 @@ def main():
                 target = choose_monkey_target(single_monkey, new_item_value)
                 target_monkey_info = monkey_data.get(target)
                 throw_item(single_monkey, target_monkey_info, new_item_value)
-                time.sleep(0.0005)
-                print("\033c")
-                print(monkey)
-                pprint(monkey_data[monkey], sort_dicts=False)
+    pprint(monkey_data, sort_dicts=False)
 
 def read_file(file):
     with open(os.path.join(sys.path[0], file), "r") as file_content:
@@ -55,6 +51,8 @@ def build_monkey_dict(input):
         elif 'false' in line:
             number = re.findall('\d+', line)
             monkey_dict['Monkey' + str(monkey_number[0])]['FalseThrowTarget'] = 'Monkey' + str(number[0])
+    for monkey in monkey_dict:
+        monkey_dict[monkey]['NumberOfInspections'] = 0
     return monkey_dict
 
 def inspect_item(monkey_info, item):
@@ -73,6 +71,7 @@ def inspect_item(monkey_info, item):
     worry_increase = operators[selected_operator](item, number)
     result = math.floor(worry_increase / 3)
     monkey_info['items'][0] = result
+    monkey_info['NumberOfInspections'] += 1
     return result
 
 def choose_monkey_target(monkey_info, item):
