@@ -21,8 +21,8 @@ def main():
                 target_monkey_info = monkey_data.get(target)
                 throw_item(single_monkey, target_monkey_info, new_item_value)
     busiest_monkeys = busy_monkeys(monkey_data)
-    print(busiest_monkeys)
-    pprint(monkey_data, sort_dicts=False)
+    print(monkey_business(busiest_monkeys))
+    #pprint(monkey_data, sort_dicts=False)
 
 def read_file(file):
     with open(os.path.join(sys.path[0], file), "r") as file_content:
@@ -93,9 +93,11 @@ def busy_monkeys(dictionary):
     for monkey in dictionary:
         inspection_count.append(int(dictionary[monkey]['NumberOfInspections']))
     sorted_counts = sorted(inspection_count, reverse=True)
-    first, second = sorted_counts[0], sorted_counts[1]
     busiest_two = sorted_counts[0:2]
-    return first, second, busiest_two
-    
+    return busiest_two
+
+def monkey_business(monkey):
+    return operator.mul(monkey[0],monkey[1])
+
 if __name__ == "__main__":
     main()
