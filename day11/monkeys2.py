@@ -10,18 +10,21 @@ import time
 def main():
     content = read_file("input.txt")
     monkey_data = build_monkey_dict(content)
+    product = common_divider(monkey_data)
 
     for i in range(10000): # 10,000 rounds
         for monkey in monkey_data:
             single_monkey = monkey_data.get(monkey)
             while single_monkey['items']:
                 current_item = int(single_monkey['items'][0])
-                new_item_value = int(inspect_item(single_monkey, current_item))
+                new_item_value = int(inspect_item(single_monkey, current_item, product))
                 target = choose_monkey_target(single_monkey, new_item_value)
                 target_monkey_info = monkey_data.get(target)
                 throw_item(single_monkey, target_monkey_info, new_item_value)
+        #time.sleep(0.1)
         print("\033c")
-        print(i)
+        print(i + 1)
+        #pprint(monkey_data['Monkey1']['items'], sort_dicts=False)
     busiest_monkeys = busy_monkeys(monkey_data)
     print(monkey_business(busiest_monkeys))
     #pprint(monkey_data, sort_dicts=False)
@@ -59,7 +62,7 @@ def build_monkey_dict(input):
         monkey_dict[monkey]['NumberOfInspections'] = 0
     return monkey_dict
 
-def inspect_item(monkey_info, item):
+def inspect_item(monkey_info, item, product):
     operators = {
         "+": operator.add,
         "-": operator.sub,
@@ -73,9 +76,10 @@ def inspect_item(monkey_info, item):
     except:
         number = 2
     worry_increase = operators[selected_operator](item, number)
-    monkey_info['items'][0] = worry_increase
+    result = (worry_increase % product)
+    monkey_info['items'][0] = result
     monkey_info['NumberOfInspections'] += 1
-    return worry_increase
+    return result
 
 def choose_monkey_target(monkey_info, item):
     test_number = monkey_info['DivideByTestNumber']
@@ -99,6 +103,12 @@ def busy_monkeys(dictionary):
 
 def monkey_business(monkey):
     return operator.mul(monkey[0],monkey[1])
+
+def common_divider(monkey_info):
+    product = 1
+    for monkey in monkey_info:
+        product *= monkey_info[monkey]['DivideByTestNumber']
+    return product
 
 if __name__ == "__main__":
     main()
