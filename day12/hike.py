@@ -37,17 +37,6 @@ def find_position(input, mapped_area):
     for i, location in enumerate(mapped_area)
     if input in location][0]
 
-def move_selector(current_location, option):
-    if option == 'west':
-        move_west(current_location)
-    if option == 'east':
-        move_east(current_location)
-    if option == 'north':
-        move_north(current_location)
-    if option == 'south':
-        move_south(current_location)
-    return current_location
-
 def west(current_location):
     location = [current_location[0],current_location[1] - 1]
     return location
@@ -68,22 +57,6 @@ def move(current_location, next_step, current_steps):
     new_location = next_step(current_location)
     current_steps.append(new_location)
     return new_location
-
-def move_west(current_location):
-    current_location = [current_location[0],current_location[1] - 1]
-    return current_location
-
-def move_east(current_location):
-    current_location = [current_location[0],current_location[1] + 1]
-    return current_location
-
-def move_north(current_location):
-    current_location = [current_location[0] - 1,current_location[1]]
-    return current_location
-
-def move_south(current_location):
-    current_location = [current_location[0] + 1,current_location[1]]
-    return current_location
 
 def check_elevation(location, mapped_area):
     elevation = mapped_area[location[0]][location[1]]
