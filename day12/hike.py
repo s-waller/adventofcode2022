@@ -18,9 +18,13 @@ def main():
         current_location = current_steps[-1]
         if current_location == target_location:
             successful_paths.append(current_steps)
+            summit_reached()
         options = scan_directions(current_location, mapped_area)
-        current_location = move(current_location, random.choice(options), current_steps)
-        #current_location = move(current_location, north, current_steps)
+        if options:
+            current_location = move(current_location, random.choice(options), current_steps)
+            #current_location = move(current_location, north, current_steps)
+        else:
+            dead_end()
 
 
     #for direction in options:
@@ -78,6 +82,14 @@ def scan_directions(current_location, mapped_area):
             if direction_coordinates[0] >= 0 and direction_coordinates[1] >= 0: # negative values would cause the mover to teleport to the other end of the map
                 possible_directions.append(direction)
     return possible_directions
+
+def dead_end():
+    print("Dead End Reached")
+    return 
+
+def summit_reached():
+    print("Summit Reached")
+    return
 
 if __name__ == "__main__":
     main()
