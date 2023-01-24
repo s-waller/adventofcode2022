@@ -20,6 +20,7 @@ def main():
             successful_paths.append(current_steps)
         options = scan_directions(current_location, mapped_area)
         current_location = move(current_location, random.choice(options), current_steps)
+        #current_location = move(current_location, north, current_steps)
 
 
     #for direction in options:
@@ -72,7 +73,7 @@ def scan_directions(current_location, mapped_area):
     current_elevation = check_elevation(current_location, mapped_area)
     current_elevations_index = elevations.index(current_elevation)
     for direction in (north, south, east, west):
-        if check_elevation(direction(current_location), mapped_area) in elevations[0:(current_elevations_index + 1)]:
+        if check_elevation(direction(current_location), mapped_area) in elevations[0:(current_elevations_index + 2)]:
             possible_directions.append(direction)
     return possible_directions
 
