@@ -73,8 +73,10 @@ def scan_directions(current_location, mapped_area):
     current_elevation = check_elevation(current_location, mapped_area)
     current_elevations_index = elevations.index(current_elevation)
     for direction in (north, south, east, west):
-        if check_elevation(direction(current_location), mapped_area) in elevations[0:(current_elevations_index + 2)]:
-            possible_directions.append(direction)
+        direction_coordinates = direction(current_location)
+        if check_elevation(direction_coordinates, mapped_area) in elevations[0:(current_elevations_index + 2)]:
+            if direction_coordinates[0] >= 0 and direction_coordinates[1] >= 0: # negative values would cause the mover to teleport to the other end of the map
+                possible_directions.append(direction)
     return possible_directions
 
 if __name__ == "__main__":
