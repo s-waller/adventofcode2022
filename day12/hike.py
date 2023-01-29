@@ -99,17 +99,28 @@ def check_elevation(location, mapped_area):
         elevation == 'z'
     return elevation
 
+def valid_coordinates(coordinates, area):
+    if coordinates[0] >= len(area) or coordinates[1] >= len(area[0]):
+        return False
+    if coordinates[0] < 0 or coordinates[1] < 0: # negative values would cause the mover to teleport to the other end of the map
+        return False
+    return True
+
+def can_climb(current_location, target_location, area):
+    elevations = list(string.ascii_lowercase)
+    current_elevation = check_elevation(current_location, area)
+    current_elevations_index = elevations.index(current_elevation)
+    if check_elevation(target_location, area) in elevations[0:(current_elevations_index + 2)]:
+        return True
+    else:
+        return False
+
 def scan_directions(current_location, mapped_area):
     possible_directions = []
-    elevations = list(string.ascii_lowercase)
-    current_elevation = check_elevation(current_location, mapped_area)
-    current_elevations_index = elevations.index(current_elevation)
     for direction in (north, south, east, west):
         direction_coordinates = direction(current_location)
-        if direction_coordinates[0] > (len(mapped_area) -1) or direction_coordinates[1] > (len(mapped_area) - 1):
-            break
-        if check_elevation(direction_coordinates, mapped_area) in elevations[0:(current_elevations_index + 2)]:
-            if direction_coordinates[0] >= 0 and direction_coordinates[1] >= 0: # negative values would cause the mover to teleport to the other end of the map
+        if valid_coordinates(direction_coordinates, mapped_area)
+            if can_climb(current_location, direction_coordinates, mapped_area)
                 possible_directions.append(direction)
     return possible_directions
 
