@@ -4,15 +4,24 @@ import string
 import random
 
 def main():
-    mapped_area = read_file("input.txt")
+    mapped_area = read_file("sample.txt")
+    print(len(mapped_area[0]))
+    walked_area = []
+    string = ("." * 101)
+    for i in range(41):
+        walked_area.append(string)
+    print(*walked_area, sep='\n')
     successful_paths = []
-    current_steps = [] 
+    current_steps = []
+    stepped_ground = set()
     print(*mapped_area, sep='\n')
     start_location = find_position('S', mapped_area)
     target_location = find_position('E', mapped_area)
     print(start_location, target_location)
     current_location = current_steps[-1] if current_steps else start_location
     current_steps.append(current_location)
+
+    #walk_paths(mapped_area, options, visited, dfs_traversal)
 
     while current_location != target_location:
         current_location = current_steps[-1]
@@ -23,8 +32,27 @@ def main():
         if options:
             current_location = move(current_location, random.choice(options), current_steps)
             #current_location = move(current_location, north, current_steps)
+            stepped_ground.add(tuple(current_location))
         else:
             dead_end()
+def walk_paths(mapped_area, options, visited, dfs_traversal):
+    for direction in options:
+        
+        walk_paths(mapped_area, options, visited, dfs_traversal)
+
+visited = set()
+dfs_traversal = list()
+
+def walk_paths(graph, options, visited, dfs_traversal):    
+    if direction not in visited:
+        dfs_traversal.append(source)
+        visited.add(source)
+
+        for neighbor_node in graph[source]:
+            dfs(fff, neighbor_node, visited, dfs_traversal)
+
+    return dfs_traversal
+
 
 
     #for direction in options:
@@ -34,8 +62,8 @@ def main():
 def read_file(file):
     with open(os.path.join(sys.path[0], file), "r") as file_content:
         list_of_strings = file_content.read().split('\n')
-        result = [list(i) for i in list_of_strings]
-        return result
+        #result = [list(i) for i in list_of_strings]
+        return list_of_strings #result
 
 def find_position(input, mapped_area):
     return [[i, location.index(input)]
@@ -78,6 +106,8 @@ def scan_directions(current_location, mapped_area):
     current_elevations_index = elevations.index(current_elevation)
     for direction in (north, south, east, west):
         direction_coordinates = direction(current_location)
+        if direction_coordinates[0] > (len(mapped_area) -1) or direction_coordinates[1] > (len(mapped_area) - 1):
+            break
         if check_elevation(direction_coordinates, mapped_area) in elevations[0:(current_elevations_index + 2)]:
             if direction_coordinates[0] >= 0 and direction_coordinates[1] >= 0: # negative values would cause the mover to teleport to the other end of the map
                 possible_directions.append(direction)
