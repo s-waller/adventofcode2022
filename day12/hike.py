@@ -7,8 +7,8 @@ def main():
     mapped_area = read_file("sample.txt")
     print(len(mapped_area[0]))
     walked_area = []
-    string = ("." * 101)
-    for i in range(41):
+    string = ("." * len(mapped_area[0]))
+    for i in range(len(mapped_area)):
         walked_area.append(string)
     print(*walked_area, sep='\n')
     successful_paths = []
@@ -24,17 +24,19 @@ def main():
     #walk_paths(mapped_area, options, visited, dfs_traversal)
 
     while current_location != target_location:
-        current_location = current_steps[-1]
-        if current_location == target_location:
-            successful_paths.append(current_steps)
-            summit_reached()
-        options = scan_directions(current_location, mapped_area)
+        stepped_ground.add(tuple(current_location))
+        options = scan_directions(current_location, mapped_area, stepped_ground)
         if options:
             current_location = move(current_location, random.choice(options), current_steps)
             #current_location = move(current_location, north, current_steps)
-            stepped_ground.add(tuple(current_location))
         else:
             dead_end()
+    if current_location == target_location:
+            successful_paths.append(current_steps)
+            summit_reached()
+
+
+"""
 def walk_paths(mapped_area, options, visited, dfs_traversal):
     for direction in options:
         
@@ -57,7 +59,7 @@ def walk_paths(graph, options, visited, dfs_traversal):
 
     #for direction in options:
         #move_selector(current_location, direction)
-
+"""
             
 def read_file(file):
     with open(os.path.join(sys.path[0], file), "r") as file_content:
@@ -96,10 +98,12 @@ def check_elevation(location, mapped_area):
     if elevation == 'S':
         elevation = 'a'
     if elevation == 'E':
-        elevation == 'z'
+        elevation = 'z'
     return elevation
 
-def valid_coordinates(coordinates, area):
+def valid_coordinates(coordinates, area, visited):
+    if tuple(coordinates) in visited:
+        return False
     if coordinates[0] >= len(area) or coordinates[1] >= len(area[0]):
         return False
     if coordinates[0] < 0 or coordinates[1] < 0: # negative values would cause the mover to teleport to the other end of the map
@@ -115,12 +119,12 @@ def can_climb(current_location, target_location, area):
     else:
         return False
 
-def scan_directions(current_location, mapped_area):
+def scan_directions(current_location, mapped_area, visited):
     possible_directions = []
     for direction in (north, south, east, west):
         direction_coordinates = direction(current_location)
-        if valid_coordinates(direction_coordinates, mapped_area)
-            if can_climb(current_location, direction_coordinates, mapped_area)
+        if valid_coordinates(direction_coordinates, mapped_area, visited):
+            if can_climb(current_location, direction_coordinates, mapped_area):
                 possible_directions.append(direction)
     return possible_directions
 
