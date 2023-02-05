@@ -8,14 +8,13 @@ import copy
 def main():
     mapped_area = read_file("input.txt")
     walked_area = []
-    string = ("." * len(mapped_area[0]))
+    string = ("#" * len(mapped_area[0]))
     for i in range(len(mapped_area)):
         walked_area.append(string)
-    print(*walked_area, sep='\n')
     successful_paths = []
     current_steps = []
     stepped_ground = set()
-    print(*mapped_area, sep='\n')
+    #print(*mapped_area, sep='\n')
     start_location = find_position('S', mapped_area)
     target_location = find_position('E', mapped_area)
     current_location = current_steps[-1] if current_steps else start_location
@@ -31,13 +30,22 @@ def main():
             current_location = move(current_location, random.choice(options), current_steps)
         else:
             dead_end(current_location, dead_ends)
-            current_steps = []
-            stepped_ground = set()
-            current_location = start_location
-            current_steps.append(current_location)
+            current_steps.pop()
+            #stepped_ground = set()
+            current_location = current_steps[-1]
+            #current_steps.append(current_location)
     if current_location == target_location:
         successful_paths.append(current_steps)
         summit_reached(current_steps)
+
+def breadth_first_search():
+    
+    return
+
+def find_shortest_path():
+
+    shortest_path = 0
+    return shortest_path
 
 def print_status(current_steps, dead_ends, target_location, walked_area, refresh):
     walked_area = copy.deepcopy(refresh)
@@ -47,11 +55,13 @@ def print_status(current_steps, dead_ends, target_location, walked_area, refresh
         walked_area[current_steps[-1][0]] = walked_area[current_steps[-1][0]][:current_steps[-1][1]] + "O" + walked_area[current_steps[-1][0]][current_steps[-1][1] + 1:]
     for nogo in dead_ends:
         walked_area[nogo[0]] = walked_area[nogo[0]][:nogo[1]] + "X" + walked_area[nogo[0]][nogo[1] + 1:]
-    print("\033c")
+    
+    os.system('')
     print(*walked_area, sep='\n')
-    #time.sleep(0.0000000005)
-
-
+    #time.sleep(0.005)
+    #print("\033c")
+    print("\033[42F")
+    
 def read_file(file):
     with open(os.path.join(sys.path[0], file), "r") as file_content:
         list_of_strings = file_content.read().split('\n')
