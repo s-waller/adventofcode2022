@@ -1,8 +1,6 @@
 import sys
 import os
 import string
-import random
-import time
 import copy
 from collections import deque
 
@@ -20,7 +18,9 @@ def main():
     current_steps.append(current_location)
     walked_area_refresh = copy.deepcopy(walked_area)
     
-    print(breadth_first_search(start_location, target_location, mapped_area, walked_area, walked_area_refresh))
+    shortest_path = breadth_first_search(start_location, target_location, mapped_area, walked_area, walked_area_refresh)
+    print(len(shortest_path) - 1)
+
 
 def breadth_first_search(start, end, mapped_area, walked_area, refresh):
     queue = deque([start])
@@ -47,17 +47,21 @@ def breadth_first_search(start, end, mapped_area, walked_area, refresh):
         next_node = trace[last_node]
         path.append(next_node)
     
-    return path[::-1]
+    shortest_path = path[::-1]
+    print_status(visited, end, walked_area, refresh, shortest_path)
+    return shortest_path
 
-def print_status(visited, target_location, walked_area, refresh):
+def print_status(visited, target_location, walked_area, refresh, shortest_path=[]):
     walked_area = copy.deepcopy(refresh)
     walked_area[target_location[0]] = walked_area[target_location[0]][:target_location[1]] + "E" + walked_area[target_location[0]][target_location[1] + 1:]
     for step in visited:
         walked_area[step[0]] = walked_area[step[0]][:step[1]] + "." + walked_area[step[0]][step[1] + 1:]
+    if shortest_path:
+        for step in shortest_path:
+            walked_area[step[0]] = walked_area[step[0]][:step[1]] + "@" + walked_area[step[0]][step[1] + 1:]
         
     os.system('')
     print(*walked_area, sep='\n')
-    #time.sleep(0.005)
     #print("\033c")
     print("\033[42F")
     
@@ -86,11 +90,6 @@ def north(current_location):
 def south(current_location):
     location = (current_location[0] + 1,current_location[1])
     return location
-
-def move(current_location, next_step, current_steps):
-    new_location = next_step(current_location)
-    current_steps.append(new_location)
-    return new_location
 
 def check_elevation(location, mapped_area):
     elevation = mapped_area[location[0]][location[1]]
@@ -126,14 +125,6 @@ def scan_directions(current_location, mapped_area, visited):
             if can_climb(current_location, direction_coordinates, mapped_area):
                 possible_directions.append(direction)
     return possible_directions
-
-def dead_end(coordinates, dead_ends):
-    dead_ends.add(tuple(coordinates))
-    return 
-
-def summit_reached(current_steps):
-    print("Summit reached in " + str(len(current_steps)) + " steps.")
-    return
 
 if __name__ == "__main__":
     main()
