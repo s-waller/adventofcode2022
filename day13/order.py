@@ -6,6 +6,13 @@ def main():
     packets = parse_file("sample.txt")
     left_and_right_packets = split_packets(packets)
     left_packets, right_packets = left_and_right_packets[0], left_and_right_packets[1]
+    number_of_pairs = get_number_of_pairs(left_packets, right_packets)
+
+    iterations = range(number_of_pairs)
+    for i in iterations:
+        print(i) # placeholder for do stuff
+
+
 
 
 # If both values are integers, the lower integer should come first
@@ -19,6 +26,8 @@ def main():
 # If the lists are the same length and no comparison makes a decision about the order, continue checking the next part of the input
 
 # If exactly one value is an integer, convert the integer to a list which contains that integer as its only value, then retry the comparison
+# if (len(i) == 1) and (type(i) is not list):
+#    i = list(i)
 # For example, if comparing [0,0,0] and 2, convert the right value to [2] (a list containing 2); the result is then found by instead comparing [0,0,0] and [2]
 
 
@@ -46,6 +55,12 @@ def split_packets(list_of_packets):
     left_list = list_of_packets[::2]
     right_list = list_of_packets[1::2]
     return left_list, right_list
+
+def get_number_of_pairs(first, second):
+    if len(first) != len(second):
+        raise Exception("var1 and var2 do not contain the same number of packets")
+    else:
+        return len(first)
 
 if __name__ == "__main__":
     main()
