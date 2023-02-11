@@ -1,6 +1,8 @@
 import sys
 import os
 import ast
+import itertools
+
 
 def main():
     packets = parse_file("sample.txt")
@@ -8,38 +10,54 @@ def main():
     left_packets, right_packets = left_and_right_packets[0], left_and_right_packets[1]
     number_of_pairs = get_number_of_pairs(left_packets, right_packets)
 
+    sum_of_correct_indices = 0
     iterations = range(number_of_pairs)
     for i in iterations:
-        print(i) # placeholder for do stuff
+        correct_order = compare_packets(left_packets[i], right_packets[i])
+        if correct_order:
+            print(i + 1)
+            sum_of_correct_indices += i + 1
+    
+    print("Total: " + str(sum_of_correct_indices))
 
 
+def compare_packets(left, right):
+    for left_value, right_value in itertools.zip_longest(left, right, fillvalue=None):
+
+        if left_value == None:
+            return True
+        if right_value == None:
+            return False
+
+        value_type = compare_type(left_value, right_value)
+        
+        if value_type == 'int':
+            if left_value < right_value:
+                return True
+            if left_value > right_value:
+                return False
+        else:
+            left_value, right_value = type_correction(left_value, right_value)
+            deeper_compare = compare_packets(left_value, right_value)
+
+            if deeper_compare == True or deeper_compare == False:
+                return deeper_compare
 
 
-# If both values are integers, the lower integer should come first
-# If the left integer is lower than the right integer, the inputs are in the right order
-# If the left integer is higher than the right integer, the inputs are not in the right order
-# Otherwise, the inputs are the same integer; continue checking the next part of the input
-
-# If both values are lists, compare the first value of each list, then the second value, and so on
-# If the left list runs out of items first, the inputs are in the right order
-# If the right list runs out of items first, the inputs are not in the right order
-# If the lists are the same length and no comparison makes a decision about the order, continue checking the next part of the input
-
-# If exactly one value is an integer, convert the integer to a list which contains that integer as its only value, then retry the comparison
-# if (len(i) == 1) and (type(i) is not list):
-#    i = list(i)
-# For example, if comparing [0,0,0] and 2, convert the right value to [2] (a list containing 2); the result is then found by instead comparing [0,0,0] and [2]
+def compare_type(left_value, right_value):
+    if type(left_value) is int and type(right_value) is int:
+        return 'int'
+    else: 
+        return 'not_int'
 
 
-
-
-# What are the indices of the pairs that are already in the right order? 
-# (The first pair has index 1, the second pair has index 2, and so on.) 
-# In the above example, the pairs in the right order are 1, 2, 4, and 6; the sum of these indices is 13.
-
-# Determine which pairs of packets are already in the right order
-# What is the sum of the indices of those pairs?
-
+def type_correction(left_value, right_value):
+    if (type(left_value) is int):
+        left_value = [left_value]
+    if (type(right_value) is int):
+        right_value = [right_value]
+    return left_value, right_value
+        
 
 def parse_file(file):
     with open(os.path.join(sys.path[0], file), "r") as file_content:
@@ -51,16 +69,19 @@ def parse_file(file):
         lines[i] = ast.literal_eval(line)
     return lines
 
+
 def split_packets(list_of_packets):
     left_list = list_of_packets[::2]
     right_list = list_of_packets[1::2]
     return left_list, right_list
+
 
 def get_number_of_pairs(first, second):
     if len(first) != len(second):
         raise Exception("var1 and var2 do not contain the same number of packets")
     else:
         return len(first)
+
 
 if __name__ == "__main__":
     main()
