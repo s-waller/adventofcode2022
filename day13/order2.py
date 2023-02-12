@@ -89,18 +89,5 @@ def parse_file(file):
     return lines
 
 
-def split_packets(list_of_packets):
-    left_list = list_of_packets[::2]
-    right_list = list_of_packets[1::2]
-    return left_list, right_list
-
-
-def get_number_of_pairs(first, second):
-    if len(first) != len(second):
-        raise Exception("var1 and var2 do not contain the same number of packets")
-    else:
-        return len(first)
-
-
 if __name__ == "__main__":
     main()
