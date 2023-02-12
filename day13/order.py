@@ -5,7 +5,7 @@ import itertools
 
 
 def main():
-    packets = parse_file("sample.txt")
+    packets = parse_file("input.txt")
     left_and_right_packets = split_packets(packets)
     left_packets, right_packets = left_and_right_packets[0], left_and_right_packets[1]
     number_of_pairs = get_number_of_pairs(left_packets, right_packets)
