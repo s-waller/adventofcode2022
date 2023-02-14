@@ -6,10 +6,12 @@ import itertools
 def main():
     rocks = parse_file("input.txt")
     rocks = calculate_rock_positions(rocks)
-
+    sand_start_position = (500, 0)
     grid_sizes = get_grid_size(rocks)
 
-    sand_start_position = [500, 0]
+    grid = create_grid(grid_sizes, rocks, sand_start_position)
+    print(*grid, sep='\n')
+    
     return
 
 
@@ -58,6 +60,24 @@ def get_grid_size(rocks):
 
     return grid_horizontal, grid_vertical
 
+
+def rock_index(index_value, horizontal_start_index):
+    new_index = index_value - horizontal_start_index
+    return new_index
+
+
+def create_grid(grid_sizes, rocks, sand_start):
+    grid_height = grid_sizes[1][1]
+    grid_width = grid_sizes[0][1] - grid_sizes[0][0]
+    list = []
+    for i in range(0, grid_height + 1):
+        list.append([])
+        for j in range(0, grid_width + 1):
+            list[i] += "."
+    list[sand_start[1]][rock_index(sand_start[0],grid_sizes[0][0])] = '+'
+    for rock in rocks:
+        list[rock[1]][rock_index(rock[0],grid_sizes[0][0])] = '#'
+    return list
 
 if __name__ == "__main__":
     main()
