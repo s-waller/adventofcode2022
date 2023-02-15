@@ -1,18 +1,26 @@
 import os
 import sys
 import itertools
+import time
 
 
 def main():
-    rocks = parse_file("input.txt")
+    rocks = parse_file("sample.txt")
     rocks = calculate_rock_positions(rocks)
     sand_start_position = (500, 0)
     grid_sizes = get_grid_size(rocks)
 
     grid = create_grid(grid_sizes, rocks, sand_start_position)
-    print(*grid, sep='\n')
-    
-    return
+
+    sand_counter = 0
+
+    while True:
+        try:
+            sand_fall(grid, grid_sizes, rocks)
+            sand_counter += 1
+        except IndexError:
+            print("Grains of sand: " + str(sand_counter))
+            return
 
 
 def parse_file(file):
@@ -78,6 +86,44 @@ def create_grid(grid_sizes, rocks, sand_start):
     for rock in rocks:
         list[rock[1]][rock_index(rock[0],grid_sizes[0][0])] = '#'
     return list
+
+
+def sand_fall(grid, grid_sizes, rocks):
+    sand_entry = find_position('+', grid)
+    sand_current = sand_entry
+    blocked = False
+
+    while blocked == False:
+        if grid[sand_current[0] + 1][sand_current[1]] == '.':
+            grid[sand_current[0] + 1][sand_current[1]] = 'o'
+            if grid[sand_current[0]][sand_current[1]] != '+':
+                grid[sand_current[0]][sand_current[1]] = '.'
+            sand_current = (sand_current[0] + 1, sand_current[1])
+        elif grid[sand_current[0] + 1][sand_current[1]] == '#' or grid[sand_current[0] + 1][sand_current[1]] == 'o':
+            if grid[sand_current[0] + 1][sand_current[1] - 1] == '.':
+                grid[sand_current[0] + 1][sand_current[1] - 1] = 'o'
+                grid[sand_current[0]][sand_current[1]] = '.'
+                sand_current = (sand_current[0] + 1, sand_current[1] - 1)
+            elif grid[sand_current[0] + 1][sand_current[1] + 1] == '.':
+                grid[sand_current[0] + 1][sand_current[1] + 1] = 'o'
+                grid[sand_current[0]][sand_current[1]] = '.'
+                sand_current = (sand_current[0] + 1, sand_current[1] + 1)
+
+        if grid[sand_current[0] + 1][sand_current[1]] != '.' and grid[sand_current[0] + 1][sand_current[1] - 1] != '.' and grid[sand_current[0] + 1][sand_current[1] + 1] != '.':
+            blocked = True
+
+        print("\033[B")
+        print(*grid, sep='\n')
+        print("\033[13F")
+        time.sleep(0.05)
+    return
+
+
+def find_position(input, mapped_area):
+    return tuple([[i, location.index(input)]
+    for i, location in enumerate(mapped_area)
+    if input in location][0])
+
 
 if __name__ == "__main__":
     main()
