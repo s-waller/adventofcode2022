@@ -5,7 +5,7 @@ import time
 
 
 def main():
-    rocks = parse_file("sample.txt")
+    rocks = parse_file("input.txt")
     rocks = calculate_rock_positions(rocks)
     sand_start_position = (500, 0)
     grid_sizes = get_grid_size(rocks)
@@ -112,10 +112,10 @@ def sand_fall(grid, grid_sizes, rocks):
         if grid[sand_current[0] + 1][sand_current[1]] != '.' and grid[sand_current[0] + 1][sand_current[1] - 1] != '.' and grid[sand_current[0] + 1][sand_current[1] + 1] != '.':
             blocked = True
 
-        print("\033[B")
-        print(*grid, sep='\n')
-        print("\033[13F")
-        time.sleep(0.05)
+        #print("\033[B")
+        #print(*grid, sep='\n')
+        #print("\033[172F")
+        #time.sleep(0.0005)
     return
 
 
